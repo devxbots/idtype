@@ -11,7 +11,7 @@ rust-version = "1.60"
 # https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-secrecy = ["dep:secrecy"]
+secret = ["dep:secrecy"]
 serde = ["dep:serde", "secrecy?/serde"]
 
 [dependencies]
