@@ -124,7 +124,7 @@ macro_rules! name {
 /// let token: ApiToken = "super-secret-api-token".into();
 /// let header = format!("Authorization: Bearer {}", token.expose());
 /// ```
-#[cfg(feature = "secrecy")]
+#[cfg(feature = "secret")]
 #[macro_export]
 macro_rules! secret {
     (
@@ -270,7 +270,7 @@ mod tests {
         }
     }
 
-    #[cfg(feature = "secrecy")]
+    #[cfg(feature = "secret")]
     mod secret {
         use super::*;
 
