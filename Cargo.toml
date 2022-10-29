@@ -14,6 +14,13 @@ rust-version = "1.60"
 secret = ["dep:secrecy"]
 serde = ["dep:serde", "secrecy?/serde"]
 
+[[example]]
+name = "secret"
+required-features = ["secret", "serde"]
+
 [dependencies]
 secrecy = { version = "0.8", optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
+
+[dev-dependencies]
+serde_json = "1.0.87"
