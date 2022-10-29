@@ -1,0 +1,19 @@
+[package]
+name = "idtype"
+version = "0.0.0"
+edition = "2021"
+
+# Required to declare a weak dependency on the `secrecy/serde` feature
+# https://doc.rust-lang.org/cargo/reference/features.html#dependency-features
+rust-version = "1.60"
+
+# See more keys and their definitions at
+# https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+secrecy = ["dep:secrecy"]
+serde = ["dep:serde", "secrecy?/serde"]
+
+[dependencies]
+secrecy = { version = "0.8", optional = true }
+serde = { version = "1", features = ["derive"], optional = true }

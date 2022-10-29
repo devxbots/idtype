@@ -95,13 +95,13 @@ jobs:
         if: ${{ steps.coverage.outputs.enable != 'true' }}
         with:
           command: test
-          args: --verbose
+          args: --verbose --all-features
 
       - name: Run tests with test coverage
         uses: actions-rs/tarpaulin@master
         if: ${{ steps.coverage.outputs.enable == 'true' }}
         with:
-          args: --skip-clean
+          args: --skip-clean --all-features
           version: 0.20.0
 
       - name: Upload to codecov.io
@@ -116,3 +116,28 @@ jobs:
         with:
           name: code-coverage-report
           path: cobertura.xml
+
+  test-features:
+    name: Test all feature combinations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Cache build artifacts
+        uses: swatinem/rust-cache@v2.0.1
+
+      - name: Install cargo-all-features
+        run: cargo install cargo-all-features
+
+      - name: Run cargo-all-features
+        uses: actions-rs/cargo@v1
+        with:
+          command: test-all-features
