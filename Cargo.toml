@@ -10,17 +10,12 @@ rust-version = "1.60"
 # See more keys and their definitions at
 # https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-secret = ["dep:secrecy"]
-serde = ["dep:serde", "secrecy?/serde"]
-
 [[example]]
 name = "secret"
-required-features = ["secret", "serde"]
 
 [dependencies]
-secrecy = { version = "0.8", optional = true }
-serde = { version = "1", features = ["derive"], optional = true }
+secrecy = { version = "0.8", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
 
 [dev-dependencies]
 serde_json = "1.0.87"

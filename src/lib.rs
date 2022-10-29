@@ -1,3 +1,6 @@
+pub use secrecy;
+pub use serde;
+
 /// Generate a numeric id type
 ///
 /// The `id!` macro generates a numeric id type that wraps a `u64`. The type implements common
@@ -20,8 +23,7 @@ macro_rules! id {
         $id:ident
     ) => {
         $(#[$meta])*
-        #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
-        #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
+        #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, $crate::serde::Deserialize, $crate::serde::Serialize)]
         pub struct $id(u64);
 
         impl $id {
@@ -72,8 +74,7 @@ macro_rules! name {
         $name:ident
     ) => {
         $(#[$meta])*
-        #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug)]
-        #[cfg_attr(feature = "serde", derive(serde::Deserialize, serde::Serialize))]
+        #[derive(Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, $crate::serde::Deserialize, $crate::serde::Serialize)]
         pub struct $name(String);
 
         impl $name {
@@ -124,7 +125,6 @@ macro_rules! name {
 /// let token: ApiToken = "super-secret-api-token".into();
 /// let header = format!("Authorization: Bearer {}", token.expose());
 /// ```
-#[cfg(feature = "secret")]
 #[macro_export]
 macro_rules! secret {
     (
@@ -132,19 +132,18 @@ macro_rules! secret {
         $secret:ident
     ) => {
         $(#[$meta])*
-        #[derive(Clone, Debug)]
-        #[cfg_attr(feature = "serde", derive(serde::Deserialize))]
-        pub struct $secret(secrecy::SecretString);
+        #[derive(Clone, Debug, $crate::serde::Deserialize)]
+        pub struct $secret($crate::secrecy::SecretString);
 
         impl $secret {
             /// Initializes a new secret.
             pub fn new(secret: &str) -> Self {
-                Self(secrecy::SecretString::new(String::from(secret)))
+                Self($crate::secrecy::SecretString::new(String::from(secret)))
             }
 
             /// Returns the inner value of the secret.
             pub fn expose(&self) -> &str {
-                use secrecy::ExposeSecret;
+                use $crate::secrecy::ExposeSecret;
                 self.0.expose_secret()
             }
         }
@@ -157,13 +156,13 @@ macro_rules! secret {
 
         impl From<&str> for $secret {
             fn from(secret: &str) -> $secret {
-                $secret(secrecy::SecretString::new(String::from(secret)))
+                $secret($crate::secrecy::SecretString::new(String::from(secret)))
             }
         }
 
         impl From<String> for $secret {
             fn from(secret: String) -> $secret {
-                $secret(secrecy::SecretString::new(secret))
+                $secret($crate::secrecy::SecretString::new(secret))
             }
         }
     };
