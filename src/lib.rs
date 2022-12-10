@@ -3,7 +3,7 @@ pub use serde;
 
 /// Generate a numeric id type
 ///
-/// The `id!` macro generates a numeric id type that wraps a `u64`. The type implements common
+/// The `id!` macro generates a numeric id type that wraps a `i64`. The type implements common
 /// traits and conversations that make it easy to use.
 ///
 /// # Example
@@ -24,16 +24,16 @@ macro_rules! id {
     ) => {
         $(#[$meta])*
         #[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash, Debug, $crate::serde::Deserialize, $crate::serde::Serialize)]
-        pub struct $id(u64);
+        pub struct $id(i64);
 
         impl $id {
             /// Initializes a new id.
-            pub fn new(id: u64) -> Self {
+            pub fn new(id: i64) -> Self {
                 Self(id)
             }
 
             /// Returns the inner value of the id.
-            pub fn get(&self) -> u64 {
+            pub fn get(&self) -> i64 {
                 self.0
             }
         }
@@ -44,8 +44,8 @@ macro_rules! id {
             }
         }
 
-        impl From<u64> for $id {
-            fn from(id: u64) -> $id {
+        impl From<i64> for $id {
+            fn from(id: i64) -> $id {
                 $id(id)
             }
         }
@@ -195,7 +195,7 @@ mod tests {
         }
 
         #[test]
-        fn trait_from_u64() {
+        fn trait_from_i64() {
             let _id: TestId = 42.into();
         }
 
