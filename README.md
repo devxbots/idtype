@@ -1,7 +1,6 @@
 # 🪪 `idtype`
 
-[![Crates.io](https://img.shields.io/crates/v/idtype)](https://crates.io/crates/idtype)
-[![docs.rs](https://img.shields.io/docsrs/idtype)][documentation]
+![Maintenance](https://img.shields.io/maintenance/no/2023)
 
 `idtype` provides convenient macros to use the [`newtype`] pattern to generate
 types for identifiers.
